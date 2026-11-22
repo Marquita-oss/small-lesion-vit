@@ -140,14 +140,16 @@ dl.methods dd{margin:0;min-width:0}
 .copy:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
 
 
-.people{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 0}
-.person{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
-.person img{width:76px;height:76px;border-radius:50%;object-fit:cover;display:block;background:var(--soft)}
-.person>div{min-width:0}
-.person b{display:block;font-size:17px;color:var(--fg);margin-bottom:4px}
-.person ul{margin:0;padding:0;list-style:none;font-size:14px;color:var(--mut);line-height:1.5}
-.person li+li{margin-top:2px}
-@media (max-width:560px){.people{grid-template-columns:1fr}}
+.people{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 0}
+.person{display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid var(--line);border-radius:14px;padding:20px 14px 16px;min-width:0}
+.person img{width:96px;height:96px;border-radius:50%;object-fit:cover;display:block;background:var(--soft);margin-bottom:12px}
+.person b{font-size:17px;color:var(--fg);margin-bottom:6px}
+.person .unit{font-size:13.5px;color:var(--mut);line-height:1.45;margin:0}
+.person .uni{font-size:13.5px;color:var(--fg);line-height:1.45;margin:4px 0 0}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:auto;padding-top:14px}
+.tag{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--accent);background:var(--soft)}
+@media (max-width:760px){.people{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.people{grid-template-columns:1fr}}
 footer{margin-top:44px;background:var(--band);color:var(--band-mut);padding-block:28px 34px;font-size:13.5px}
 footer img{display:block;width:min(420px,100%);height:auto;margin-bottom:14px}
 footer p{margin:0 0 4px;max-width:none}
@@ -328,11 +330,12 @@ footer p{margin:0 0 4px;max-width:none}
   <section id="authors">
     <div class="sec-head"><h2>Authors</h2></div>
     <div class="people">
-      <div class="person"><img src="fig/people/marca.jpg" width="240" height="240" alt="Ronald Marca" loading="lazy"><div><b>Ronald Marca</b><ul><li>Ph.D. Program in Health Sciences and Engineering, Universidad de Valparaíso, Chile</li><li>School of Biomedical Engineering, Universidad de Valparaíso, Chile</li><li>Millennium Institute for Intelligent Healthcare Engineering (iHEALTH), Santiago, Chile</li><li>Center for Interdisciplinary Biomedical and Engineering Research for Health (MEDING), Chile</li></ul></div></div>
-      <div class="person"><img src="fig/people/caprile.jpg" width="240" height="240" alt="Paola Caprile" loading="lazy"><div><b>Paola Caprile</b><ul><li>Institute of Physics, Pontificia Universidad Católica de Chile, Santiago, Chile</li><li>Millennium Institute for Intelligent Healthcare Engineering (iHEALTH), Santiago, Chile</li></ul></div></div>
-      <div class="person"><img src="fig/people/salas.jpg" width="240" height="240" alt="Rodrigo Salas" loading="lazy"><div><b>Rodrigo Salas</b><ul><li>School of Biomedical Engineering, Universidad de Valparaíso, Chile</li><li>Millennium Institute for Intelligent Healthcare Engineering (iHEALTH), Santiago, Chile</li><li>Center for Interdisciplinary Biomedical and Engineering Research for Health (MEDING), Chile</li></ul></div></div>
-      <div class="person"><img src="fig/people/besa.jpg" width="240" height="240" alt="Cecilia Besa" loading="lazy"><div><b>Cecilia Besa</b><ul><li>Department of Radiology, Pontificia Universidad Católica de Chile, Santiago, Chile</li><li>Millennium Institute for Intelligent Healthcare Engineering (iHEALTH), Santiago, Chile</li></ul></div></div>
+      <div class="person"><img src="fig/people/marca.jpg" width="240" height="240" alt="Ronald Marca" loading="lazy"><b>Ronald Marca</b><p class="unit">Ph.D. Program in Health Sciences and Engineering</p><p class="uni">Universidad de Valparaíso</p><div class="tags"><span class="tag">iHEALTH</span><span class="tag">MEDING</span></div></div>
+      <div class="person"><img src="fig/people/caprile.jpg" width="240" height="240" alt="Paola Caprile" loading="lazy"><b>Paola Caprile</b><p class="unit">Institute of Physics</p><p class="uni">Pontificia Universidad Católica de Chile</p><div class="tags"><span class="tag">iHEALTH</span></div></div>
+      <div class="person"><img src="fig/people/salas.jpg" width="240" height="240" alt="Rodrigo Salas" loading="lazy"><b>Rodrigo Salas</b><p class="unit">School of Biomedical Engineering</p><p class="uni">Universidad de Valparaíso</p><div class="tags"><span class="tag">iHEALTH</span><span class="tag">MEDING</span></div></div>
+      <div class="person"><img src="fig/people/besa.jpg" width="240" height="240" alt="Cecilia Besa" loading="lazy"><b>Cecilia Besa</b><p class="unit">Department of Radiology</p><p class="uni">Pontificia Universidad Católica de Chile</p><div class="tags"><span class="tag">iHEALTH</span></div></div>
     </div>
+    <p style="font-size:14px;color:var(--mut);margin-top:12px">iHEALTH: Millennium Institute for Intelligent Healthcare Engineering, Santiago, Chile. MEDING: Center for Interdisciplinary Biomedical and Engineering Research for Health, Chile.</p>
   </section>
 
   <section id="cite">
