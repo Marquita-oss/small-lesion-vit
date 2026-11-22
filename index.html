@@ -220,7 +220,7 @@ footer p{margin:0 0 4px;max-width:none}
   </div>
 
   <section id="problem">
-    <div class="sec-head"><span class="step">1 / problem</span><h2>ViTs win overall but miss thin lesions</h2></div>
+    <div class="sec-head"><h2>ViTs win overall but miss thin lesions</h2></div>
     <p class="lead">On PI-CAI [1], a pretrained 3D vision transformer (PrimusM) beats the nnU-Net ResEncL CNN on the challenge score, but finds less than half as many lesions that span only one or two 3 mm slices.</p>
     <figure>
       <div class="plate"><img src="fig/problem.png" width="2000" height="812" alt="(a) PI-CAI score: CNN 0.57, ViT 0.62. (b) Sensitivity at 0.5 false positives per case on 43 lesions spanning 1–2 slices: CNN 0.35, ViT 0.16, p = 0.010." loading="lazy"></div>
@@ -229,7 +229,7 @@ footer p{margin:0 0 4px;max-width:none}
   </section>
 
   <section id="pretraining">
-    <div class="sec-head"><span class="step">context</span><h2>Pretraining: a large gain for ViTs only</h2></div>
+    <div class="sec-head"><h2>Pretraining: a large gain for ViTs only</h2></div>
     <p>MAE self-supervised pretraining barely moves the CNN but lifts the ViT by 15 points. Pretraining on brain or prostate MRI gives the same result.</p>
     <div class="tbl-wrap">
       <table>
@@ -250,7 +250,7 @@ footer p{margin:0 0 4px;max-width:none}
   </section>
 
   <section id="hypothesis">
-    <div class="sec-head"><span class="step">2 / hypothesis</span><h2>Make the token isotropic in millimeters</h2></div>
+    <div class="sec-head"><h2>Make the token isotropic in millimeters</h2></div>
     <p>Voxels are 3.0 × 0.5 × 0.5 mm, so a token that is cubic in voxels is tall and thin. We kept the number of tokens, parameters, data and training fixed and changed only the token shape. Both models were trained from scratch.</p>
     <figure>
       <div class="plate"><img src="fig/cubes.png" width="2000" height="972" alt="Standard token: 8 × 8 × 8 voxels = 24 × 4 × 4 mm. Isotropic token: 2 × 16 × 16 voxels = 6 × 8 × 8 mm. The same lesion outline is shown on both." loading="lazy"></div>
@@ -260,7 +260,7 @@ footer p{margin:0 0 4px;max-width:none}
   </section>
 
   <section id="result">
-    <div class="sec-head"><span class="step">3 / result</span><h2>Isotropic tokens <span class="hl">are worse</span></h2></div>
+    <div class="sec-head"><h2>Isotropic tokens <span class="hl">are worse</span></h2></div>
     <p>The isotropic model is worse on every measure, and more so for large lesions (−0.26) than for small ones (−0.13). Shorter tokens in z do not help; coarser tokens in-plane hurt.</p>
     <figure class="pair">
       <div class="plate"><img src="fig/forest.png" width="2000" height="1052" alt="Forest plot, isotropic minus standard token: small lesions (n = 79) p = 0.013, large lesions (n = 73) p &lt; 0.001, PI-CAI score p &lt; 0.001; all intervals below zero and far from the preregistered success region." loading="lazy"></div>
@@ -271,7 +271,7 @@ footer p{margin:0 0 4px;max-width:none}
   </section>
 
   <section id="levers">
-    <div class="sec-head"><span class="step">4 / post hoc</span><h2>Small lesions cannot be fixed after the model</h2></div>
+    <div class="sec-head"><h2>Small lesions cannot be fixed after the model</h2></div>
     <div class="big33"><b>33%</b><span>of small lesions are never seen by the best CNN</span></div>
     <div class="fate" role="img" aria-label="Fate of 79 small lesions: 36 detected, 9 partial, 8 nearby, 26 never seen">
       <div style="flex:36;background:var(--det);color:var(--bg)">36</div>
@@ -307,7 +307,7 @@ footer p{margin:0 0 4px;max-width:none}
   </div>
 
   <section id="methods">
-    <div class="sec-head"><span class="step">methods</span><h2>Setup</h2></div>
+    <div class="sec-head"><h2>Setup</h2></div>
     <dl class="methods">
       <dt>Data</dt><dd>PI-CAI: 1,201 development cases in 3-fold cross-validation (727 pooled validation cases). The 299-case test set was not used.</dd>
       <dt>Models</dt><dd>PrimusM ViT vs. ResEncL CNN (nnU-Net), 500 epochs.</dd>
@@ -317,7 +317,7 @@ footer p{margin:0 0 4px;max-width:none}
   </section>
 
   <section id="cite">
-    <div class="sec-head"><span class="step">cite</span><h2>Citation</h2></div>
+    <div class="sec-head"><h2>Citation</h2></div>
     <p>Work in progress; please cite the presentation for now.</p>
 <div class="cite" id="bib"><button class="copy" id="copy-bib" type="button">Copy</button>@misc{marca2026isotokens,
   title  = {Millimeter-Isotropic Tokens: 3D Vision Transformers for
@@ -330,7 +330,7 @@ footer p{margin:0 0 4px;max-width:none}
   </section>
 
   <section id="refs">
-    <div class="sec-head"><span class="step">refs</span><h2>References</h2></div>
+    <div class="sec-head"><h2>References</h2></div>
     <ol class="refs">
       <li>Saha A, Bosma JS, Twilt JJ, et al. Artificial intelligence and radiologists in prostate cancer detection on MRI (PI-CAI): an international, paired, non-inferiority, confirmatory study. <i>Lancet Oncol.</i> 2024;25(7):879–887. <a href="https://doi.org/10.1016/S1470-2045(24)00220-1">doi:10.1016/S1470-2045(24)00220-1</a></li>
       <li>Wald T, Roy S, Isensee F, Ulrich C, Ziegler S, Trofimova D, Stock R, Baumgartner M, Köhler G, Maier-Hein K. Primus: enforcing attention usage for 3D medical image segmentation. <i>Transactions on Machine Learning Research</i>, 2026. <a href="https://openreview.net/forum?id=x4vZE4PDEu">OpenReview</a>; <a href="https://doi.org/10.48550/arXiv.2503.01835">arXiv:2503.01835</a></li>
