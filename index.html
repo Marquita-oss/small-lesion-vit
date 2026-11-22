@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Millimeter-Isotropic Tokens</title>
+<meta name="description" content="Slides and poster: 3D vision transformers for small csPCa lesion detection in anisotropic bpMRI (iHEALTH 2026).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#202055;--sky:#95D0F5;--ink:#1A1A2E;--mut:#5A6072;--line:#CFE3F5;--bg:#FFFFFF;--soft:#F3F8FD}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arimo,Arial,Helvetica,sans-serif;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:40px 16px 36px;border-bottom:6px solid var(--sky)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header .wrap{padding:0}
+.kicker{color:var(--sky);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px}
+h1{font-size:clamp(24px,5vw,34px);line-height:1.2;margin:0 0 16px}
+.authors{margin:0;font-size:16px}
+.aff{margin:6px 0 0;font-size:14px;color:#C9D3EA}
+main{padding:28px 0 40px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 28px}
+.btn{display:flex;flex-direction:column;justify-content:center;min-height:72px;padding:14px 16px;border-radius:12px;text-decoration:none;font-weight:700;font-size:18px;background:var(--navy);color:#fff;border:2px solid var(--navy)}
+.btn small{font-weight:400;font-size:13px;color:#C9D3EA}
+.btn:hover,.btn:focus-visible{background:#2E2E7A;outline:none}
+.btn.off{background:var(--soft);color:var(--mut);border:2px dashed var(--line);pointer-events:none}
+.btn.off small{color:var(--mut)}
+h2{font-size:20px;color:var(--navy);margin:28px 0 8px}
+p{margin:0 0 12px}
+ul{margin:0 0 12px;padding-left:20px}
+li{margin:0 0 6px}
+.note{font-size:14px;color:var(--mut)}
+footer{border-top:1px solid var(--line);padding:20px 0 32px;font-size:13px;color:var(--mut)}
+a{color:var(--navy)}
+@media (max-width:480px){.buttons{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<p class="kicker">iHEALTH 2026, work in progress</p>
+<h1>Millimeter-Isotropic Tokens: 3D Vision Transformers for Small csPCa Lesion Detection in Anisotropic bpMRI</h1>
+<p class="authors">Ronald Marca¹, Paola Caprile², Rodrigo Salas¹, Cecilia Besa²</p>
+<p class="aff">¹ Universidad de Valparaíso, Chile&ensp; ² Pontificia Universidad Católica de Chile, Santiago, Chile</p>
+</div>
+</header>
+<main class="wrap">
+<div class="buttons">
+<a class="btn" href="iHEALTH2026_slides.pdf">Slides (PDF)<small>Rapid-fire talk, 6 slides</small></a>
+<span class="btn off" aria-disabled="true">Poster (PDF)<small>Coming soon</small></span>
+</div>
+
+<h2>In short</h2>
+<ul>
+<li>Pretrained 3D vision transformers beat CNNs overall on PI-CAI, but find less than half as many lesions spanning 1–2 slices (sensitivity 0.16 vs. 0.35 at 0.5 false positives per case, p = 0.010).</li>
+<li>With 3 mm slices, a standard 8 × 8 × 8-voxel token is 24 mm tall. Making it isotropic in millimeters, with nothing else changed, made the model worse everywhere, and more so for large lesions than for small ones: the bottleneck is in-plane detail, not z.</li>
+<li>Post hoc levers on the best CNN do not fix it: a third of small lesions are never seen. The fix has to come from training.</li>
+</ul>
+
+<h2>Code</h2>
+<p>Coming soon, together with the full paper.</p>
+
+<p class="note">Data: PI-CAI public development set (Saha et al., Lancet Oncol 2024; CC BY-NC 4.0). Results are pooled 3-fold cross-validation; the PI-CAI test set was not used.</p>
+</main>
+<footer>
+<div class="wrap">Funded by ANID, Millennium Science Initiative Program, ICN2021_004 (Millennium Institute for Intelligent Healthcare Engineering, iHEALTH).</div>
+</footer>
+</body>
+</html>
