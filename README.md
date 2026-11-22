@@ -2,7 +2,7 @@
 
 Ronald Marca, Paola Caprile, Rodrigo Salas, Cecilia Besa. iHEALTH 2026 (work in progress).
 
-Page: https://marquita-oss.github.io/ihealth-2026-small-lesions/
+Page: https://marquita-oss.github.io/small-lesion-vit/
 
 - `iHEALTH2026_slides.pdf`: rapid-fire talk slides.
 - Poster PDF: coming soon.
