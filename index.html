@@ -43,7 +43,8 @@ h1,h2,h3{text-wrap:balance;line-height:1.2}
 .hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 18px;font-weight:700}
 .authors{margin:0;font-size:16px}
 .authors sup{font-size:.7em}
-.aff{margin:4px 0 0;font-size:13.5px;color:var(--band-mut)}
+.aff{list-style:none;margin:8px 0 0;padding:0;font-size:13px;line-height:1.45;color:var(--band-mut)}
+.aff li{margin:0 0 2px}
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
 .btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;color:var(--navy);background:#FFFFFF;border:2px solid #FFFFFF;transition:transform .15s ease, background .15s ease}
 .btn:hover{transform:translateY(-1px);background:var(--sky);border-color:var(--sky)}
@@ -166,11 +167,18 @@ footer p{margin:0 0 4px;max-width:none}
   <div class="wrap hero-grid">
     <div>
       <h1>Millimeter-Isotropic Tokens: 3D Vision Transformers for Small csPCa Lesion Detection in Anisotropic bpMRI</h1>
-      <p class="authors">Ronald Marca<sup>1</sup>, Paola Caprile<sup>2</sup>, Rodrigo Salas<sup>1</sup>, Cecilia Besa<sup>2</sup></p>
-      <p class="aff"><sup>1</sup> Universidad de Valparaíso, Chile&emsp;<sup>2</sup> Pontificia Universidad Católica de Chile, Santiago, Chile</p>
+      <p class="authors">Ronald Marca<sup>1,2,5,6</sup>, Paola Caprile<sup>4,5</sup>, Rodrigo Salas<sup>2,5,6</sup>, Cecilia Besa<sup>3,5</sup></p>
+      <ol class="aff">
+        <li><sup>1</sup> Ph.D. Program in Health Sciences and Engineering, Universidad de Valparaíso, Chile</li>
+        <li><sup>2</sup> School of Biomedical Engineering, Universidad de Valparaíso, Chile</li>
+        <li><sup>3</sup> Department of Radiology, Pontificia Universidad Católica de Chile, Santiago, Chile</li>
+        <li><sup>4</sup> Institute of Physics, Pontificia Universidad Católica de Chile, Santiago, Chile</li>
+        <li><sup>5</sup> Millennium Institute for Intelligent Healthcare Engineering (iHEALTH), Santiago, Chile</li>
+        <li><sup>6</sup> Center for Interdisciplinary Biomedical and Engineering Research for Health (MEDING), Chile</li>
+      </ol>
       <div class="btns">
         <a class="btn" href="iHEALTH2026_slides.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/></svg>Slides (PDF)</a>
-        <span class="btn off" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>Poster, soon</span>
+        <a class="btn" href="iHEALTH2026_poster.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>Poster (PDF)</a>
         <span class="btn off" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>Code, with the paper</span>
       </div>
     </div>

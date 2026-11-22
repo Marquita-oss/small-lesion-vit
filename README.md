@@ -5,5 +5,5 @@ Ronald Marca, Paola Caprile, Rodrigo Salas, Cecilia Besa. iHEALTH 2026 (work in 
 Page: https://marquita-oss.github.io/small-lesion-vit/
 
 - `iHEALTH2026_slides.pdf`: rapid-fire talk slides.
-- Poster PDF: coming soon.
+- `iHEALTH2026_poster.pdf`: poster (90 x 120 cm).
 - Code: coming soon, together with the full paper.
