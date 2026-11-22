@@ -2,69 +2,364 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Millimeter-Isotropic Tokens</title>
-<meta name="description" content="Slides and poster: 3D vision transformers for small csPCa lesion detection in anisotropic bpMRI (iHEALTH 2026).">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="3D vision transformers miss csPCa lesions that span 1–2 slices. Does a token isotropic in millimeters fix it? Slides, poster and summary (iHEALTH 2026).">
+<meta property="og:title" content="Millimeter-Isotropic Tokens">
+<meta property="og:description" content="3D vision transformers for small csPCa lesion detection in anisotropic bpMRI. Slides, poster and summary (iHEALTH 2026).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#202055;--sky:#95D0F5;--ink:#1A1A2E;--mut:#5A6072;--line:#CFE3F5;--bg:#FFFFFF;--soft:#F3F8FD}
+/* Layout: navy poster band with the to-scale token sketch, then one reading column (max 880px) that follows the poster's story: problem, hypothesis, result, levers. */
+:root{
+  --bg:#FFFFFF; --fg:#1A1A2E; --mut:#5A6072; --line:#D9E6F3; --soft:#F3F8FD;
+  --navy:#202055; --sky:#95D0F5; --tok:#E08A2C; --les:#D62728; --accent:#202055;
+  --plate:#FFFFFF; --det:#202055; --part:#95D0F5; --near:#A6A6A6;
+  --band:#202055; --band-fg:#FFFFFF; --band-mut:#C9D3EA; --band-line:#7FA8D9;
+  --f-text:"Arimo", Arial, Helvetica, sans-serif; --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11112A; --fg:#ECEEF6; --mut:#A9AFC4; --line:#2C2C58; --soft:#18183A; --accent:#95D0F5;
+  --plate:#FFFFFF; --det:#95D0F5; --part:#5A6FB8; --near:#8A8FA8; --band:#1A1A48; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11112A; --fg:#ECEEF6; --mut:#A9AFC4; --line:#2C2C58; --soft:#18183A; --accent:#95D0F5;
+  --plate:#FFFFFF; --det:#95D0F5; --part:#5A6FB8; --near:#8A8FA8; --band:#1A1A48; color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Arimo,Arial,Helvetica,sans-serif;line-height:1.5}
-header{background:var(--navy);color:#fff;padding:40px 16px 36px;border-bottom:6px solid var(--sky)}
-.wrap{max-width:760px;margin:0 auto;padding:0 16px}
-header .wrap{padding:0}
-.kicker{color:var(--sky);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px}
-h1{font-size:clamp(24px,5vw,34px);line-height:1.2;margin:0 0 16px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-text);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,.btn:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;line-height:1.2}
+.num{font-variant-numeric:tabular-nums}
+
+/* hero band */
+.hero{background:var(--band);color:var(--band-fg);margin-top:calc(-1 * env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 44px);padding-bottom:40px;border-bottom:6px solid var(--sky)}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:center}
+.hero-grid>*{min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin:0 0 14px}
+.hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 18px;font-weight:700}
 .authors{margin:0;font-size:16px}
-.aff{margin:6px 0 0;font-size:14px;color:#C9D3EA}
-main{padding:28px 0 40px}
-.buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 28px}
-.btn{display:flex;flex-direction:column;justify-content:center;min-height:72px;padding:14px 16px;border-radius:12px;text-decoration:none;font-weight:700;font-size:18px;background:var(--navy);color:#fff;border:2px solid var(--navy)}
-.btn small{font-weight:400;font-size:13px;color:#C9D3EA}
-.btn:hover,.btn:focus-visible{background:#2E2E7A;outline:none}
-.btn.off{background:var(--soft);color:var(--mut);border:2px dashed var(--line);pointer-events:none}
-.btn.off small{color:var(--mut)}
-h2{font-size:20px;color:var(--navy);margin:28px 0 8px}
-p{margin:0 0 12px}
-ul{margin:0 0 12px;padding-left:20px}
-li{margin:0 0 6px}
-.note{font-size:14px;color:var(--mut)}
-footer{border-top:1px solid var(--line);padding:20px 0 32px;font-size:13px;color:var(--mut)}
-a{color:var(--navy)}
-@media (max-width:480px){.buttons{grid-template-columns:1fr}}
+.authors sup{font-size:.7em}
+.aff{margin:4px 0 0;font-size:13.5px;color:var(--band-mut)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;color:var(--navy);background:#FFFFFF;border:2px solid #FFFFFF;transition:transform .15s ease, background .15s ease}
+.btn:hover{transform:translateY(-1px);background:var(--sky);border-color:var(--sky)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.off{background:transparent;color:var(--band-mut);border:2px dashed var(--band-line);cursor:default}
+.btn.off:hover{transform:none;background:transparent;border-color:var(--band-line)}
+.hero-fig{margin:0}
+.hero-fig figcaption{font-size:13px;color:var(--band-mut);margin-top:6px}
+
+/* hero sketch, drawn to scale in mm */
+.hero-svg{width:100%;height:auto;display:block;overflow:visible}
+.hero-svg .slice{fill:none;stroke:#BFD8F2;stroke-width:.32;stroke-linejoin:round}
+.hero-svg .les-body{fill:var(--les)}
+.hero-svg .les-cut{fill:none;stroke:#FFFFFF;stroke-width:.25;opacity:.9}
+.hero-svg .tok-f{fill:var(--tok);opacity:.22}
+.hero-svg .tok-s{fill:var(--tok);opacity:.36}
+.hero-svg .tok-t{fill:var(--tok);opacity:.5}
+.hero-svg .tok-e{fill:none;stroke:var(--tok);stroke-width:.5;stroke-linejoin:round}
+.hero-svg .lab path{fill:none;stroke-width:.4}
+.hero-svg .lab text{font-family:var(--f-text);font-size:3.4px}
+.hero-svg .lab-mm path{stroke:#BFD8F2}.hero-svg .lab-mm text{fill:#FFFFFF}
+.hero-svg .lab-tok path{stroke:var(--tok);stroke-width:.55}.hero-svg .lab-tok text{fill:var(--tok);font-weight:700;font-size:3.8px}
+.hero-svg .lab-les text{fill:#FF7A7C;font-weight:700;font-size:3.6px}
+.hero-svg .token{transform-box:view-box}
+@media (prefers-reduced-motion: no-preference){
+  .hero-svg .slice{animation:drop .5s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(.08s * (7 - var(--i)))}
+  .hero-svg .lesion{animation:fade .45s ease-out .75s both}
+  .hero-svg .token{animation:grow .9s cubic-bezier(.3,.6,.2,1) 1.15s both}
+  .hero-svg .lab{animation:fade .5s ease-out 1.9s both}
+  .hero-svg .lab-les{animation-delay:.95s}
+}
+@keyframes drop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* key numbers */
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:36px 0 8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.key{padding:18px 18px 18px 0;min-width:0}
+.key+.key{padding-left:18px;border-left:1px solid var(--line)}
+.key b{display:block;font-size:30px;line-height:1.1;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.key b.bad{color:var(--les)}
+.key span{display:block;font-size:14px;color:var(--mut);margin-top:6px;line-height:1.45}
+
+/* sections */
+main section{padding:34px 0 8px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 10px}
+.step{font-family:var(--f-mono);font-size:13px;color:var(--mut);flex:none}
+h2{font-size:clamp(22px,3vw,27px);margin:0;color:var(--fg)}
+h2 .hl{color:var(--les)}
+p{margin:0 0 14px;max-width:68ch}
+.lead{font-size:18.5px}
+figure{margin:18px 0 8px}
+.plate{background:var(--plate);border:1px solid var(--line);border-radius:14px;padding:14px}
+.plate img{display:block;width:100%;height:auto}
+figcaption{font-size:14px;color:var(--mut);margin-top:8px;line-height:1.5}
+.pair{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;align-items:center}
+.pair>*{min-width:0}
+.callout{background:var(--soft);border-left:0;border-radius:12px;padding:14px 18px;margin:16px 0 4px;font-weight:700;color:var(--fg)}
+.callout .bad{color:var(--les)}
+
+/* table */
+.tbl-wrap{overflow-x:auto;margin:14px 0 6px}
+table{border-collapse:collapse;width:100%;min-width:540px;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:right;white-space:nowrap}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+thead th{font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent)}
+tbody.vit{background:var(--soft)}
+tbody tr:last-child td{border-bottom:1px solid var(--line)}
+td.arch{font-weight:700;color:var(--accent)}
+td.ref{color:var(--mut)}
+td.win{font-weight:700;color:var(--accent)}
+
+/* levers */
+.fate{display:flex;height:42px;border-radius:8px;overflow:hidden;margin:16px 0 8px}
+.fate div{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--mut);margin:0 0 14px;padding:0;list-style:none}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.big33{display:flex;align-items:center;gap:16px;margin:6px 0 4px}
+.big33 b{font-size:64px;line-height:1;color:var(--les);font-variant-numeric:tabular-nums}
+.big33 span{font-weight:700;max-width:28ch}
+
+/* take-home + methods */
+.take{background:var(--band);color:var(--band-fg);border-radius:16px;padding:24px 24px 18px;margin:36px 0 8px}
+.take h2{color:var(--sky);margin-bottom:12px}
+.take ol{margin:0;padding-left:22px}
+.take li{margin:0 0 10px;padding-left:4px}
+dl.methods{display:grid;grid-template-columns:110px 1fr;gap:10px 16px;margin:12px 0 0}
+dl.methods dt{font-weight:700;color:var(--accent)}
+dl.methods dd{margin:0;min-width:0}
+.refs{font-size:14px;color:var(--mut);padding-left:22px}
+.refs li{margin:0 0 8px;overflow-wrap:anywhere}
+.cite{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-family:var(--f-mono);font-size:13px;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--fg)}
+.copy{position:absolute;top:10px;right:10px;min-height:32px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:500 13px var(--f-text);cursor:pointer}
+.copy:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+
+footer{margin-top:44px;background:var(--band);color:var(--band-mut);padding-block:28px 34px;font-size:13.5px}
+footer img{display:block;width:min(420px,100%);height:auto;margin-bottom:14px}
+footer p{margin:0 0 4px;max-width:none}
+
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-fig{max-width:520px}
+  .pair{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .keys{grid-template-columns:1fr}
+  .key{padding:14px 0}
+  .key+.key{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  dl.methods{grid-template-columns:1fr;gap:2px}
+  dl.methods dd{margin-bottom:10px}
+  .big33 b{font-size:52px}
+}
 </style>
 </head>
 <body>
-<header>
-<div class="wrap">
-<p class="kicker">iHEALTH 2026, work in progress</p>
-<h1>Millimeter-Isotropic Tokens: 3D Vision Transformers for Small csPCa Lesion Detection in Anisotropic bpMRI</h1>
-<p class="authors">Ronald Marca¹, Paola Caprile², Rodrigo Salas¹, Cecilia Besa²</p>
-<p class="aff">¹ Universidad de Valparaíso, Chile&ensp; ² Pontificia Universidad Católica de Chile, Santiago, Chile</p>
-</div>
+
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">iHEALTH 2026 &nbsp;/&nbsp; work in progress</p>
+      <h1>Millimeter-Isotropic Tokens: 3D Vision Transformers for Small csPCa Lesion Detection in Anisotropic bpMRI</h1>
+      <p class="authors">Ronald Marca<sup>1</sup>, Paola Caprile<sup>2</sup>, Rodrigo Salas<sup>1</sup>, Cecilia Besa<sup>2</sup></p>
+      <p class="aff"><sup>1</sup> Universidad de Valparaíso, Chile&emsp;<sup>2</sup> Pontificia Universidad Católica de Chile, Santiago, Chile</p>
+      <div class="btns">
+        <a class="btn" href="iHEALTH2026_slides.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/></svg>Slides (PDF)</a>
+        <span class="btn off" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>Poster, soon</span>
+        <span class="btn off" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>Code, with the paper</span>
+      </div>
+    </div>
+    <figure class="hero-fig">
+      <svg class="hero-svg" viewBox="0 0 89.0 41.0" role="img" aria-label="Eight axial MRI slices 3 mm apart; a lesion visible on 2 of them; one standard 8 by 8 by 8 voxel token, 4 by 4 mm in-plane and 24 mm tall, passes through the lesion. Drawn to scale.">
+<polygon class="slice" style="--i:0" points="2.00,30.50 42.00,30.50 55.00,25.50 15.00,25.50"/>
+<polygon class="slice" style="--i:1" points="2.00,27.50 42.00,27.50 55.00,22.50 15.00,22.50"/>
+<polygon class="slice" style="--i:2" points="2.00,24.50 42.00,24.50 55.00,19.50 15.00,19.50"/>
+<polygon class="slice" style="--i:3" points="2.00,21.50 42.00,21.50 55.00,16.50 15.00,16.50"/>
+<polygon class="slice" style="--i:4" points="2.00,18.50 42.00,18.50 55.00,13.50 15.00,13.50"/>
+<polygon class="slice" style="--i:5" points="2.00,15.50 42.00,15.50 55.00,10.50 15.00,10.50"/>
+<polygon class="slice" style="--i:6" points="2.00,12.50 42.00,12.50 55.00,7.50 15.00,7.50"/>
+<polygon class="slice" style="--i:7" points="2.00,9.50 42.00,9.50 55.00,4.50 15.00,4.50"/>
+<g class="lesion">
+<polygon class="les-body" points="34.75,14.28 34.75,20.28 34.75,20.34 34.71,20.39 34.62,20.44 34.50,20.50 34.34,20.56 34.14,20.61 33.90,20.66 33.63,20.72 33.32,20.77 32.99,20.82 32.63,20.86 32.24,20.91 31.83,20.95 31.41,20.98 30.97,21.02 30.52,21.05 30.06,21.07 29.59,21.09 29.13,21.11 28.67,21.12 28.21,21.12 27.76,21.12 27.33,21.12 26.92,21.11 26.52,21.10 26.15,21.08 25.81,21.06 25.49,21.03 25.21,21.00 24.95,20.97 24.74,20.93 24.56,20.89 24.42,20.84 24.32,20.79 24.26,20.74 24.24,20.69 24.24,14.69 24.27,14.64 24.33,14.58 24.43,14.53 24.58,14.47 24.76,14.42 24.98,14.36 25.23,14.31 25.52,14.26 25.84,14.21 26.19,14.16 26.56,14.11 26.96,14.07 27.38,14.03 27.81,14.00 28.26,13.97 28.71,13.94 29.17,13.92 29.64,13.90 30.10,13.89 30.56,13.88 31.01,13.88 31.45,13.88 31.88,13.88 32.28,13.89 32.67,13.91 33.02,13.93 33.35,13.95 33.66,13.98 33.92,14.02 34.16,14.05 34.36,14.09 34.51,14.14 34.63,14.18 34.71,14.23"/>
+<polygon class="les-cut" points="34.50,19.00 34.62,18.94 34.71,18.89 34.75,18.84 34.75,18.78 34.71,18.73 34.63,18.68 34.51,18.64 34.36,18.59 34.16,18.55 33.92,18.52 33.66,18.48 33.35,18.45 33.02,18.43 32.67,18.41 32.28,18.39 31.88,18.38 31.45,18.38 31.01,18.38 30.56,18.38 30.10,18.39 29.64,18.40 29.17,18.42 28.71,18.44 28.26,18.47 27.81,18.50 27.38,18.53 26.96,18.57 26.56,18.61 26.19,18.66 25.84,18.71 25.52,18.76 25.23,18.81 24.98,18.86 24.76,18.92 24.58,18.97 24.43,19.03 24.33,19.08 24.27,19.14 24.24,19.19 24.26,19.24 24.32,19.29 24.42,19.34 24.56,19.39 24.74,19.43 24.95,19.47 25.21,19.50 25.49,19.53 25.81,19.56 26.15,19.58 26.52,19.60 26.92,19.61 27.33,19.62 27.76,19.62 28.21,19.62 28.67,19.62 29.13,19.61 29.59,19.59 30.06,19.57 30.52,19.55 30.97,19.52 31.41,19.48 31.83,19.45 32.24,19.41 32.63,19.36 32.99,19.32 33.32,19.27 33.63,19.22 33.90,19.16 34.14,19.11 34.34,19.06 34.50,19.00"/>
+<polygon class="les-cut" points="34.50,16.00 34.62,15.94 34.71,15.89 34.75,15.84 34.75,15.78 34.71,15.73 34.63,15.68 34.51,15.64 34.36,15.59 34.16,15.55 33.92,15.52 33.66,15.48 33.35,15.45 33.02,15.43 32.67,15.41 32.28,15.39 31.88,15.38 31.45,15.38 31.01,15.38 30.56,15.38 30.10,15.39 29.64,15.40 29.17,15.42 28.71,15.44 28.26,15.47 27.81,15.50 27.38,15.53 26.96,15.57 26.56,15.61 26.19,15.66 25.84,15.71 25.52,15.76 25.23,15.81 24.98,15.86 24.76,15.92 24.58,15.97 24.43,16.03 24.33,16.08 24.27,16.14 24.24,16.19 24.26,16.24 24.32,16.29 24.42,16.34 24.56,16.39 24.74,16.43 24.95,16.47 25.21,16.50 25.49,16.53 25.81,16.56 26.15,16.58 26.52,16.60 26.92,16.61 27.33,16.62 27.76,16.62 28.21,16.62 28.67,16.62 29.13,16.61 29.59,16.59 30.06,16.57 30.52,16.55 30.97,16.52 31.41,16.48 31.83,16.45 32.24,16.41 32.63,16.36 32.99,16.32 33.32,16.27 33.63,16.22 33.90,16.16 34.14,16.11 34.34,16.06 34.50,16.00"/>
+</g>
+<g class="token" style="transform-origin: 0 29.75px">
+<polygon class="tok-f" points="26.85,29.75 30.85,29.75 30.85,20.75 26.85,20.75"/><polygon class="tok-s" points="30.85,29.75 32.15,29.25 32.15,20.25 30.85,20.75"/>
+<polygon class="tok-f" points="26.85,14.75 30.85,14.75 30.85,5.75 26.85,5.75"/><polygon class="tok-s" points="30.85,14.75 32.15,14.25 32.15,5.25 30.85,5.75"/>
+<polygon class="tok-t" points="26.85,5.75 30.85,5.75 32.15,5.25 28.15,5.25"/>
+<polygon class="tok-e" points="26.85,29.75 30.85,29.75 30.85,5.75 26.85,5.75"/>
+<polygon class="tok-e" points="30.85,29.75 32.15,29.25 32.15,5.25 30.85,5.75"/>
+<polygon class="tok-e" points="26.85,5.75 30.85,5.75 32.15,5.25 28.15,5.25"/>
+</g>
+<g class="lab lab-mm"><path d="M56.30,7.50 H57.50 V4.50 H56.30"/>
+<text x="59.10" y="6.00" dominant-baseline="middle">3 mm</text>
+</g>
+<g class="lab lab-tok"><path d="M68.30,29.75 H69.50 V5.75 H68.30"/>
+<text x="71.10" y="15.65" dominant-baseline="middle">24 mm</text>
+<text x="71.10" y="19.85" dominant-baseline="middle">token</text>
+</g>
+<g class="lab lab-les"><text x="26.00" y="37.50" text-anchor="middle">lesion on 2 slices</text></g>
+</svg>
+
+      <figcaption>Drawn to scale. With 3 × 0.5 × 0.5 mm voxels, one standard 8 × 8 × 8-voxel token is 24 mm tall.</figcaption>
+    </figure>
+  </div>
 </header>
+
 <main class="wrap">
-<div class="buttons">
-<a class="btn" href="iHEALTH2026_slides.pdf">Slides (PDF)<small>Rapid-fire talk, 6 slides</small></a>
-<span class="btn off" aria-disabled="true">Poster (PDF)<small>Coming soon</small></span>
-</div>
+  <div class="keys" aria-label="Key numbers">
+    <div class="key"><b class="bad">0.16 <small style="font-size:.55em;color:var(--mut)">vs 0.35</small></b><span>sensitivity of the pretrained ViT vs. the CNN on lesions spanning 1–2 slices (p = 0.010)</span></div>
+    <div class="key"><b>24 → 6 mm</b><span>token height when made isotropic in millimeters, everything else unchanged</span></div>
+    <div class="key"><b class="bad">33%</b><span>of small lesions are never seen by the best CNN, whatever the post hoc lever</span></div>
+  </div>
 
-<h2>In short</h2>
-<ul>
-<li>Pretrained 3D vision transformers beat CNNs overall on PI-CAI, but find less than half as many lesions spanning 1–2 slices (sensitivity 0.16 vs. 0.35 at 0.5 false positives per case, p = 0.010).</li>
-<li>With 3 mm slices, a standard 8 × 8 × 8-voxel token is 24 mm tall. Making it isotropic in millimeters, with nothing else changed, made the model worse everywhere, and more so for large lesions than for small ones: the bottleneck is in-plane detail, not z.</li>
-<li>Post hoc levers on the best CNN do not fix it: a third of small lesions are never seen. The fix has to come from training.</li>
-</ul>
+  <section id="problem">
+    <div class="sec-head"><span class="step">1 / problem</span><h2>ViTs win overall but miss thin lesions</h2></div>
+    <p class="lead">On PI-CAI [1], a pretrained 3D vision transformer (PrimusM) beats the nnU-Net ResEncL CNN on the challenge score, but finds less than half as many lesions that span only one or two 3 mm slices.</p>
+    <figure>
+      <div class="plate"><img src="fig/problem.png" width="2000" height="812" alt="(a) PI-CAI score: CNN 0.57, ViT 0.62. (b) Sensitivity at 0.5 false positives per case on 43 lesions spanning 1–2 slices: CNN 0.35, ViT 0.16, p = 0.010." loading="lazy"></div>
+      <figcaption>Pooled 3-fold cross-validation, 727 cases; MAE pretraining for both. (b) At 0.5 false positives per case. Bars: 95% CI.</figcaption>
+    </figure>
+  </section>
 
-<h2>Code</h2>
-<p>Coming soon, together with the full paper.</p>
+  <section id="pretraining">
+    <div class="sec-head"><span class="step">context</span><h2>Pretraining: a large gain for ViTs only</h2></div>
+    <p>MAE self-supervised pretraining barely moves the CNN but lifts the ViT by 15 points. Pretraining on brain or prostate MRI gives the same result.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th></th><th>Init.</th><th>AUROC</th><th>AP</th><th>Score [95% CI]</th><th>Δ</th></tr></thead>
+        <tbody>
+          <tr><td class="arch" rowspan="3">CNN</td><td>Scratch</td><td>0.777</td><td>0.329</td><td>0.553 [0.51, 0.61]</td><td class="ref">ref.</td></tr>
+          <tr><td>MAE brain</td><td>0.778</td><td>0.334</td><td>0.556 [0.51, 0.61]</td><td>+0.002</td></tr>
+          <tr><td>MAE prostate</td><td>0.786</td><td>0.349</td><td>0.568 [0.52, 0.62]</td><td>+0.015</td></tr>
+        </tbody>
+        <tbody class="vit">
+          <tr><td class="arch" rowspan="3">ViT</td><td>Scratch</td><td>0.681</td><td>0.250</td><td>0.465 [0.42, 0.52]</td><td class="ref">ref.</td></tr>
+          <tr><td>MAE brain</td><td>0.801</td><td>0.433</td><td class="win">0.617 [0.57, 0.67]</td><td class="win">+0.150*</td></tr>
+          <tr><td>MAE prostate</td><td>0.812</td><td>0.422</td><td class="win">0.617 [0.57, 0.67]</td><td class="win">+0.151*</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="font-size:14px;color:var(--mut)">Score = (AUROC + AP) / 2. Δ: score vs. scratch, same architecture; paired bootstrap, *p &lt; 0.001 (CNN: p ≥ 0.49).</p>
+  </section>
 
-<p class="note">Data: PI-CAI public development set (Saha et al., Lancet Oncol 2024; CC BY-NC 4.0). Results are pooled 3-fold cross-validation; the PI-CAI test set was not used.</p>
+  <section id="hypothesis">
+    <div class="sec-head"><span class="step">2 / hypothesis</span><h2>Make the token isotropic in millimeters</h2></div>
+    <p>Voxels are 3.0 × 0.5 × 0.5 mm, so a token that is cubic in voxels is tall and thin. We kept the number of tokens, parameters, data and training fixed and changed only the token shape. Both models were trained from scratch.</p>
+    <figure>
+      <div class="plate"><img src="fig/cubes.png" width="2000" height="972" alt="Standard token: 8 × 8 × 8 voxels = 24 × 4 × 4 mm. Isotropic token: 2 × 16 × 16 voxels = 6 × 8 × 8 mm. The same lesion outline is shown on both." loading="lazy"></div>
+      <figcaption>Standard 8 × 8 × 8 voxels = 24 × 4 × 4 mm; isotropic 2 × 16 × 16 voxels = 6 × 8 × 8 mm. Same 6,912 tokens per patch.</figcaption>
+    </figure>
+    <div class="callout">Preregistered success criterion: Δ small-lesion sensitivity ≥ +0.10 (p &lt; 0.05).</div>
+  </section>
+
+  <section id="result">
+    <div class="sec-head"><span class="step">3 / result</span><h2>Isotropic tokens <span class="hl">are worse</span></h2></div>
+    <p>The isotropic model is worse on every measure, and more so for large lesions (−0.26) than for small ones (−0.13). Shorter tokens in z do not help; coarser tokens in-plane hurt.</p>
+    <figure class="pair">
+      <div class="plate"><img src="fig/forest.png" width="2000" height="1052" alt="Forest plot, isotropic minus standard token: small lesions (n = 79) p = 0.013, large lesions (n = 73) p &lt; 0.001, PI-CAI score p &lt; 0.001; all intervals below zero and far from the preregistered success region." loading="lazy"></div>
+      <div class="plate"><img src="fig/axial.png" width="1589" height="952" alt="The same lesion on an axial T2 slice under a 4 mm token grid and an 8 mm token grid." loading="lazy"></div>
+    </figure>
+    <figcaption>Left: isotropic minus standard, pooled cross-validation, 95% CI. Right: the same lesion under 4 mm and 8 mm in-plane token grids.</figcaption>
+    <div class="callout">The bottleneck is in-plane detail, not token length along z.</div>
+  </section>
+
+  <section id="levers">
+    <div class="sec-head"><span class="step">4 / post hoc</span><h2>Small lesions cannot be fixed after the model</h2></div>
+    <div class="big33"><b>33%</b><span>of small lesions are never seen by the best CNN</span></div>
+    <div class="fate" role="img" aria-label="Fate of 79 small lesions: 36 detected, 9 partial, 8 nearby, 26 never seen">
+      <div style="flex:36;background:var(--det);color:var(--bg)">36</div>
+      <div style="flex:9;background:var(--part);color:#202055">9</div>
+      <div style="flex:8;background:var(--near);color:#FFFFFF">8</div>
+      <div style="flex:26;background:var(--les);color:#FFFFFF">26</div>
+    </div>
+    <ul class="legend">
+      <li><i style="background:var(--det)"></i>Detected</li>
+      <li><i style="background:var(--part)"></i>Partial overlap</li>
+      <li><i style="background:var(--near)"></i>Nearby (≤ 10 mm)</li>
+      <li><i style="background:var(--les)"></i>Never seen</li>
+    </ul>
+    <div class="tbl-wrap">
+      <table style="min-width:420px">
+        <thead><tr><th>Lever</th><th></th><th>Δ small-lesion sensitivity</th><th>95% CI</th></tr></thead>
+        <tbody>
+          <tr><td>Candidate extraction</td><td></td><td>+0.013</td><td>[0.00, 0.043]</td></tr>
+          <tr><td>Ensemble of 3 CNNs</td><td></td><td>+0.032</td><td>[−0.012, 0.086]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:14px;color:var(--mut)">Both stay below the preset +0.05 success threshold. Best CNN: ResEncL + MAE; small lesion: &lt; 0.64 mL or ≤ 2 slices.</p>
+  </section>
+
+  <div class="take">
+    <h2>Take-home</h2>
+    <ol>
+      <li>Pretrained 3D ViTs lead overall but miss lesions spanning 1–2 slices.</li>
+      <li>Isotropic tokens do not fix it: in-plane detail is the bottleneck.</li>
+      <li>Post hoc levers fail; the fix must come from training. Next: lesion-level training.</li>
+    </ol>
+  </div>
+
+  <section id="methods">
+    <div class="sec-head"><span class="step">methods</span><h2>Setup</h2></div>
+    <dl class="methods">
+      <dt>Data</dt><dd>PI-CAI: 1,201 development cases in 3-fold cross-validation (727 pooled validation cases). The 299-case test set was not used.</dd>
+      <dt>Models</dt><dd>PrimusM ViT vs. ResEncL CNN (nnU-Net), 500 epochs.</dd>
+      <dt>SSL</dt><dd>MAE on brain (114k) or prostate (5,210) MRI volumes.</dd>
+      <dt>Metrics</dt><dd>PI-CAI score = (AUROC + AP) / 2; lesion sensitivity at a fixed number of false positives per case. Small lesion: &lt; 0.64 mL or ≤ 2 slices.</dd>
+    </dl>
+  </section>
+
+  <section id="cite">
+    <div class="sec-head"><span class="step">cite</span><h2>Citation</h2></div>
+    <p>Work in progress; please cite the presentation for now.</p>
+<div class="cite" id="bib"><button class="copy" id="copy-bib" type="button">Copy</button>@misc{marca2026isotokens,
+  title  = {Millimeter-Isotropic Tokens: 3D Vision Transformers for
+            Small csPCa Lesion Detection in Anisotropic bpMRI},
+  author = {Marca, Ronald and Caprile, Paola and Salas, Rodrigo and Besa, Cecilia},
+  year   = {2026},
+  note   = {Presented at iHEALTH 2026},
+  url    = {https://marquita-oss.github.io/small-lesion-vit/}
+}</div>
+  </section>
+
+  <section id="refs">
+    <div class="sec-head"><span class="step">refs</span><h2>References</h2></div>
+    <ol class="refs">
+      <li>Saha A, Bosma JS, Twilt JJ, et al. Artificial intelligence and radiologists in prostate cancer detection on MRI (PI-CAI): an international, paired, non-inferiority, confirmatory study. <i>Lancet Oncol.</i> 2024;25(7):879–887. <a href="https://doi.org/10.1016/S1470-2045(24)00220-1">doi:10.1016/S1470-2045(24)00220-1</a></li>
+      <li>Wald T, Roy S, Isensee F, Ulrich C, Ziegler S, Trofimova D, Stock R, Baumgartner M, Köhler G, Maier-Hein K. Primus: enforcing attention usage for 3D medical image segmentation. <i>Transactions on Machine Learning Research</i>, 2026. <a href="https://openreview.net/forum?id=x4vZE4PDEu">OpenReview</a>; <a href="https://doi.org/10.48550/arXiv.2503.01835">arXiv:2503.01835</a></li>
+      <li>Isensee F, Jaeger PF, Kohl SAA, Petersen J, Maier-Hein KH. nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation. <i>Nat Methods.</i> 2021;18(2):203–211. <a href="https://doi.org/10.1038/s41592-020-01008-z">doi:10.1038/s41592-020-01008-z</a></li>
+      <li>He K, Chen X, Xie S, Li Y, Dollár P, Girshick R. Masked autoencoders are scalable vision learners. In: <i>Proc. IEEE/CVF CVPR</i>; 2022:15979–15988. <a href="https://doi.org/10.1109/CVPR52688.2022.01553">doi:10.1109/CVPR52688.2022.01553</a></li>
+      <li>Wald T, Ulrich C, Suprijadi J, Ziegler S, Nohel M, Peretzke R, Köhler G, Maier-Hein K. An OpenMind for 3D medical vision self-supervised learning. In: <i>Proc. IEEE/CVF ICCV</i>; 2025:23839–23879. <a href="https://doi.org/10.1109/ICCV51701.2025.02213">doi:10.1109/ICCV51701.2025.02213</a></li>
+      <li>Pooch EHP, Agrotis G, Cai L, Emberton M, Shah TT, Ahmed HU, Beets-Tan RGH, Benson S, Janssen T, Schoots IG. Semi-supervised learning in prostate MRI tumor detection approaches fully supervised performance on external validation. <i>Eur Radiol.</i> 2026;36(6):5011–5021. <a href="https://doi.org/10.1007/s00330-026-12324-x">doi:10.1007/s00330-026-12324-x</a>. Preprint: <a href="https://doi.org/10.1101/2025.05.13.25327456">medRxiv 2025</a>. Source of the expert lesion annotations used here.</li>
+    </ol>
+    <p style="font-size:14px;color:var(--mut)">Images from the PI-CAI public development set (Saha et al., 2024; CC BY-NC 4.0).</p>
+  </section>
 </main>
+
 <footer>
-<div class="wrap">Funded by ANID, Millennium Science Initiative Program, ICN2021_004 (Millennium Institute for Intelligent Healthcare Engineering, iHEALTH).</div>
+  <div class="wrap">
+    <img src="fig/logos.png" width="1946" height="114" alt="Logos of iHEALTH (Millennium Institute for Intelligent Healthcare Engineering) and partner universities" loading="lazy">
+    <p>Funded by ANID, Millennium Science Initiative Program, ICN2021_004.</p>
+  </div>
 </footer>
+
+<script>
+document.getElementById('copy-bib').addEventListener('click', function(){
+  var btn=this, pre=document.getElementById('bib');
+  var txt=pre.textContent.replace(/^Copy/,'').trim();
+  function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},1600)}
+  function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected';}
+  try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(e){fallback()}
+});
+</script>
+
 </body>
 </html>
